@@ -21,15 +21,6 @@ function memoize(fn) {
   };
 }
 
-function slowFibonacci(n) {
-  if (n < 2) {
-    return n;
-  }
-
-  // eslint-disable-next-line no-use-before-define
-  return fib(n - 1) + fib(n - 2);
-}
-
 const fib = memoize(slowFibonacci);
 
 function fibonacci(n) {
@@ -45,7 +36,29 @@ function fibonacci(n) {
   return result[n];
 }
 
+// Write a function that returns the nth number in the Fibonacci sequence,
+// using dynamic programming to optimize its run time
+
+const FIB_CACHE = { 1: 1, 2: 1 };
+
+const dynamicProgFibonacci = n => {
+  if (FIB_CACHE[n]) return FIB_CACHE[n];
+
+  FIB_CACHE[n] = dynamicProgFibonacci(n - 1) + dynamicProgFibonacci(n - 2);
+
+  return FIB_CACHE[n];
+};
+
+// Naive/Non-Dynamic Programming implementation example
+const naiveFibonacci = n => {
+  if (n === 1 || n === 2) return 1;
+
+  return naiveFibonacci(n - 1) + naiveFibonacci(n - 2);
+};
+
 module.exports = {
   fib,
-  fibonacci
+  fibonacci,
+  dynamicProgFibonacci,
+  naiveFibonacci
 };
